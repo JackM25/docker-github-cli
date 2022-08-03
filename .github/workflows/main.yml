@@ -1,36 +1,59 @@
-# This is a basic workflow to help you get started with Actions
-
-name: CI
-
-# Controls when the workflow will run
+name: Build and Publish
 on:
   # Triggers the workflow on push or pull request events but only for the "main" branch
   push:
     branches: [ "main" ]
   pull_request:
     branches: [ "main" ]
-
   # Allows you to run this workflow manually from the Actions tab
   workflow_dispatch:
 
-# A workflow run is made up of one or more jobs that can run sequentially or in parallel
 jobs:
-  # This workflow contains a single job called "build"
-  build:
-    # The type of runner that the job will run on
+  build_publish:
+    name: Build and Publish to GitHub Packages
     runs-on: ubuntu-latest
-
-    # Steps represent a sequence of tasks that will be executed as part of the job
+    permissions:
+      contents: read
+      packages: write
+    strategy:
+      matrix:
+        # Two latest versions, previous two latest minor versions, and previous latest major version
+        version: ["2.14.3", "2.14.2", "2.13.0", "2.12.1", "1.14.0"]
     steps:
-      # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
-      - uses: actions/checkout@v3
+      - name: Checkout repository
+        uses: actions/checkout@v3
 
-      # Runs a single command using the runners shell
-      - name: Run a one-line script
-        run: echo Hello, world!
+      - name: Log in to the container registry
+        uses: docker/login-action@v2.0.0
+        if: github.event_name != 'pull_request'
+        with:
+          registry: ${{ env.REGISTRY }}
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
 
-      # Runs a set of commands using the runners shell
-      - name: Run a multi-line script
+      - name: Extract metadata for Docker
+        id: meta
+        uses: docker/metadata-action@v4.0.0
+
+      - name: Build Docker Image
+        uses: docker/build-push-action@v3.1.0
+        with:
+          context: .
+          load: true
+          build-args: GH_CLI_VERSION=${{ matrix.version }}
+          tags: ${{ env.IMAGE_NAME }}:${{ matrix.version }}-test
+          labels: ${{ steps.meta.outputs.labels }}
+      
+      - name: Test Docker Image
         run: |
-          echo Add other actions to build,
-          echo test, and deploy your project.
+          ./test-image.sh ${{ env.IMAGE_NAME }}:${{ matrix.version }}-test
+      
+      - name: Push Docker Image
+        uses: docker/build-push-action@v3.1.0
+        if: github.event_name != 'pull_request'
+        with:
+          context: .
+          push: true
+          build-args: GH_CLI_VERSION=${{ matrix.version }}
+          tags: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:${{ matrix.version }}
+          labels: ${{ steps.meta.outputs.labels }}
