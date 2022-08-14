@@ -48,6 +48,7 @@ jobs:
             const { VERSION, BASE_IMAGE, LATEST_VERSION } = process.env
             let tags = VERSION + '-' + BASE_IMAGE + '\n'
             if (BASE_IMAGE === 'alpine') tags += VERSION + '\n'
+            if (VERSION === LATEST_VERSION) tags += 'latest-' + BASE_IMAGE + '\n'
             if (BASE_IMAGE === 'alpine' && VERSION === LATEST_VERSION) tags += 'latest\n'
             return tags
 
