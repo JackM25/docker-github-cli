@@ -41,6 +41,7 @@ test_program_exists "cURL" "curl --version"
 test_program_exists "Gzip" "which gzip"
 test_program_exists "tar" "tar --version"
 test_program_exists "wget" "which wget"
+test_program_exists "jq" "which jq"
 
 # Check the image is indeed built on Ubuntu
 echo "Checking container is build on Alpine..."

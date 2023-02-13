@@ -3,7 +3,7 @@ FROM ubuntu:22.04
 ARG GH_CLI_VERSION
 
 # CURL and WGET
-RUN apt-get update && apt-get install -y curl wget
+RUN apt-get update && apt-get install -y curl wget jq
 
 # GitHub CLI
 RUN wget https://github.com/cli/cli/releases/download/v${GH_CLI_VERSION}/gh_${GH_CLI_VERSION}_linux_amd64.tar.gz && \

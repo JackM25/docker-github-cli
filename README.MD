@@ -19,6 +19,7 @@ However, in addition to `gh`, the image also includes:
 *  `gzip`
 *  `tar`
 *  `wget`
+*  `jq`
 
 ## Image Variants
 
@@ -106,4 +107,4 @@ cd alpine # or cd ubuntu for the ubuntu based image
 ```
 
 ## License
-Licensed under the MIT Licence
+Licensed under the MIT License
