@@ -21,7 +21,7 @@ jobs:
         # Two latest versions, previous two latest minor versions, and previous latest major version
         version: ["2.23.0", "2.22.1", "2.22.0", "1.14.0"]
     env:
-      LATEST_VERSION: "2.14.3"
+      LATEST_VERSION: "2.23.0"
       REGISTRY: ghcr.io
       IMAGE_NAME: jackm25/github-cli
     steps:
