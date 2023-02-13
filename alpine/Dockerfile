@@ -1,4 +1,4 @@
-FROM alpine:3.14
+FROM alpine:3.17
 
 ARG GH_CLI_VERSION
 
@@ -10,6 +10,6 @@ RUN wget https://github.com/cli/cli/releases/download/v${GH_CLI_VERSION}/gh_${GH
         rm -r /gh_${GH_CLI_VERSION}_linux_amd64
 
 # CURL
-RUN apk add curl
+RUN apk add curl jq
 
 CMD ["gh"]

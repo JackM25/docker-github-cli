@@ -1,7 +1,6 @@
 # Unofficial GitHub CLI Docker Image
 
 ![GitHub issues](https://img.shields.io/github/issues-raw/jackm25/docker-github-cli)
-![GitHub Workflow Status (branch)](https://img.shields.io/github/workflow/status/Jackm25/docker-github-cli/Build%20and%20Publish/main)
 
 Unofficial GitHub CLI Docker Image, containing the GitHub CLI tool and other related tools.
 
@@ -19,6 +18,7 @@ However, in addition to `gh`, the image also includes:
 *  `gzip`
 *  `tar`
 *  `wget`
+*  `jq`
 
 ## Image Variants
 
@@ -106,4 +106,4 @@ cd alpine # or cd ubuntu for the ubuntu based image
 ```
 
 ## License
-Licensed under the MIT Licence
+Licensed under the MIT License

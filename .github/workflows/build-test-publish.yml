@@ -19,7 +19,7 @@ jobs:
       matrix:
         base-image: ["alpine", "ubuntu"]
         # Two latest versions, previous two latest minor versions, and previous latest major version
-        version: ["2.14.3", "2.14.2", "2.13.0", "2.12.1", "1.14.0"]
+        version: ["2.23.0", "2.22.1", "2.22.0", "1.14.0"]
     env:
       LATEST_VERSION: "2.14.3"
       REGISTRY: ghcr.io
